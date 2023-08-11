@@ -18,7 +18,9 @@ class _App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
+        fontFamily: 'NotoSans',
       ),
+      //home: const RootTab(),
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
