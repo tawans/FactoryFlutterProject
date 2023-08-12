@@ -20,10 +20,7 @@ class _App extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'NotoSans',
       ),
-      home: const Scaffold(
-        backgroundColor: Colors.white,
-        body: LoginScreen(),
-      ),
+      home: const LoginScreen(),
     );
   }
 }
