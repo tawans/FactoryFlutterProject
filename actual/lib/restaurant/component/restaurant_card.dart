@@ -52,20 +52,33 @@ class RestaurantCard extends StatelessWidget {
             const SizedBox(
               height: 8.0,
             ),
+            Text(
+              tags.join(),
+              style: const TextStyle(
+                color: BODY_TEXT_COLOR,
+                fontSize: 14.0,
+              ),
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
             Row(
               children: [
                 _IconText(
                   icon: Icons.star,
                   label: rating.toString(),
                 ),
+                renderDot(),
                 _IconText(
                   icon: Icons.receipt,
                   label: ratingCount.toString(),
                 ),
+                renderDot(),
                 _IconText(
                   icon: Icons.timelapse_outlined,
                   label: '$deliveryTime 분',
                 ),
+                renderDot(),
                 _IconText(
                   icon: Icons.monetization_on,
                   label: deliveryFee == 0 ? '무료' : deliveryFee.toString(),
@@ -77,6 +90,19 @@ class RestaurantCard extends StatelessWidget {
       ],
     );
   }
+}
+
+renderDot() {
+  return const Padding(
+    padding: EdgeInsets.symmetric(horizontal: 4.0),
+    child: Text(
+      '·',
+      style: TextStyle(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+  );
 }
 
 class _IconText extends StatelessWidget {
@@ -99,7 +125,7 @@ class _IconText extends StatelessWidget {
           size: 14.0,
         ),
         const SizedBox(
-          width: 18.0,
+          width: 8.0,
         ),
         Text(
           label,
