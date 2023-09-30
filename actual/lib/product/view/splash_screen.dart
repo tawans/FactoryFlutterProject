@@ -17,24 +17,45 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    //deleteToken();
     checkToken();
+  }
+
+  void deleteToken() async {
+    //await Future.delayed(const Duration(seconds: 3));
+    await storage.delete(key: REFRESH_TOKEN_KEY);
+    await storage.delete(key: ACCESS_TOKEN_KEY);
   }
 
   void checkToken() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    if (refreshToken == null || accessToken == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
+    final dio = Dio();
+
+    try {
+      final resp = await dio.post(
+        'http://$ip/auth/token',
+        options: Options(
+          headers: {
+            'authorization': 'Bearer $refreshToken',
+          },
         ),
-        (route) => false,
       );
-    } else {
+
+      await storage.write(
+          key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => const RootTab(),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
         ),
         (route) => false,
       );
